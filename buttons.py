@@ -19,7 +19,7 @@
 
 # TRIGGER VALUE => ABS_Z / ABS_RZ
 
-from inputs import get_gamepad
+# Analog value range: 0 - 255 (0 - leftmost / uppermost, 255 - rightmost / downmost)
 
 class Button:
 
@@ -35,25 +35,34 @@ class Button:
 
 class Stick:
 
-    def __init__(self,code ,code_vertical, code_horizontal, name, number_of_axes=2):
+    def __init__(self, code_vertical, code_horizontal, name, number_of_axes=2):
         self.__name = name
+        self.__number_of_axes = number_of_axes
 
         if number_of_axes == 2:
             self.__axis = [None, None]    
             self.__axis[0] = code_vertical
             self.__axis[1] = code_horizontal
+            self.state = [0, 0]
+
         elif number_of_axes == 1:
             self.__axis = code_vertical
+            self.state = 0
 
+        else: print("Bad number of axes")
 
     def get_code(self, axis):
-        return self.__axis[axis]
+        if self.__number_of_axes == 2:
+            return self.__axis[axis]
+        else:
+            return self.__axis
 
     def get_name(self):
         return self.__name
 
 
 # Buttons
+
 TRIANGLE = Button("BTN_NORTH", "Triangle")
 CIRCLE = Button("BTN_EAST", "Circle")
 CROSS = Button("BTN_SOUTH", "Cross")
