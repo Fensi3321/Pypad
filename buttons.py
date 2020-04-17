@@ -17,6 +17,8 @@
 #   L2 => BTN_TL2
 #   PS_BTTN => BTN_BTN_MODE
 
+# TRIGGER VALUE => ABS_Z / ABS_RZ
+
 from inputs import get_gamepad
 
 class Button:
@@ -33,12 +35,16 @@ class Button:
 
 class Stick:
 
-    def __init__(self, code_vertical, code_horizontal, name):
+    def __init__(self,code ,code_vertical, code_horizontal, name, number_of_axes=2):
         self.__name = name
 
-        self.__axis = [None, None]    
-        self.__axis[0] = code_vertical
-        self.__axis[1] = code_horizontal
+        if number_of_axes == 2:
+            self.__axis = [None, None]    
+            self.__axis[0] = code_vertical
+            self.__axis[1] = code_horizontal
+        elif number_of_axes == 1:
+            self.__axis = code_vertical
+
 
     def get_code(self, axis):
         return self.__axis[axis]
@@ -73,10 +79,12 @@ def get_buttons():
 
 
 # Sticks
-RIGTH_THUMB = Stick("ABS_RY", "ABS_RX", "Thumb Right")
-LEFT_THUMB = Stick("ABS_Y", "ABS_X", "Thumb Left")
+RIGTH_THUMB = Stick("ABS_RY", "ABS_RX", "Thumb Right", 2)
+LEFT_THUMB = Stick("ABS_Y", "ABS_X", "Thumb Left", 2)
+RIGHT_TRIGGER = Stick("ABS_RZ", None, "Right Trigger", 1)
+LEFT_TRIGGER = Stick("ABS_Z", None, "Left Trigger", 1)
 
-__all_sticks = [RIGTH_THUMB, LEFT_THUMB]
+__all_sticks = [RIGTH_THUMB, LEFT_THUMB, RIGHT_TRIGGER, LEFT_TRIGGER]
 
 def get_sticks():
     return __all_sticks
