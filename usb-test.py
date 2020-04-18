@@ -1,25 +1,34 @@
-from inputs import get_gamepad
-import buttons
 import Pypad
+import buttons
+
 import numpy as np 
 import cv2 as cv 
 
 GamePad = Pypad.Input
-GamePad.start()
+GamePad.listen()
+
+
+
+posX = 20
+posY = 20
 
 while True:
-    events = get_gamepad()
+
+    img = np.zeros((720, 720, 3), np.uint8)
+
+    cv.waitKey(1)
+
+    cv.rectangle(img, (posX, posY), (posX + 20, posY + 20), (255, 0, 0), 3)
+
+    cv.imshow("img", img)
 
 
-    #print("RIGHT VERTICAL: ", gamepad.GamePad.get_axis("RVERTICAL"))
-    #print("RIGHT HORIZONTAL", gamepad.GamePad.get_axis("RHORIZONTAL"))
-    #print("LEFT HORIZONTAL",gamepad.GamePad.get_axis("LHORIZONTAL"))
-    #print("LEFT VERTICAL", gamepad.GamePad.get_axis("LVERTICAL"))
+    input_x = GamePad.get_dpad(axis="Horizontal")
+    input_y = GamePad.get_dpad(axis="Vertical")
 
 
-    for event in events:
-        if event.code == buttons.CIRCLE.get_code():
-            exit(0)
+    posX += input_x
+    posY -= input_y
 
-    
+
 

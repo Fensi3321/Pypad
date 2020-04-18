@@ -7,27 +7,6 @@ from inputs import get_gamepad
 class __Input(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.A = 0
-        self.B = 0
-        self.X = 0
-        self.Y = 0
-        self.LBumper = 0
-        self.RBumper = 0
-        self.LThumb = 0
-        self.RThumb = 0
-        self.LTrigger = 0
-        self.RTrigger = 0
-        self.Select = 0
-        self.Start = 0
-        self.LStickX = 0
-        self.LStickY = 0
-        self.RStickX = 0
-        self.RStickY = 0
-        self.DPadUp = 0
-        self.DPadDown = 0
-        self.DPadLeft = 0
-        self.DPadRight = 0
-
 
     def run(self):
 
@@ -72,8 +51,12 @@ class __Input(Thread):
         while True:
             for event in get_gamepad():
                 if event.ev_type == "Key":
-                   bttn = get_button(event.code)
-                   bttn.set_state(event.state)
+                    bttn = get_button(event.code)
+                    
+                    if bttn == buttons.D_DOWN or bttn == buttons.D_LEFT:
+                        bttn.set_state(-event.state)
+
+                    bttn.set_state(event.state)
 
                 elif event.ev_type == "Absolute":
                     analog = get_analog(event.code)
@@ -82,6 +65,46 @@ class __Input(Thread):
                         event.state = 0
                     
                     analog.set_state(event.state)
+
+    def get_key(self, key):
+        keys = buttons.get_buttons()
+
+        for button in keys:
+            if button.get_name() == key or button.get_code() == key or button == key:
+                return button.state
+            
+            if key == "Any" and button.state > 0:
+                return 1
+
+    def get_dpad(self, axis=None):
+        # vertical
+        d_up = self.get_key(buttons.D_UP)
+        d_down = self.get_key(buttons.D_DOWN)
+
+        # horizontal
+        d_left = self.get_key(buttons.D_LEFT)
+        d_right = self.get_key(buttons.D_RIGHT)
+
+
+        if axis == "Horizontal":
+            if d_right > 0:
+                return 1
+            if d_left > 0:
+                return -1
+            else: return 0
+
+        if axis == "Vertical":
+            if d_up > 0:
+                return 1
+            if d_down > 0:
+                return -1
+            else: return 0
+        else: raise KeyError("Axis not found")
+
+    def listen(self):
+        self.start()
+
+        
 
 
 Input = __Input()
