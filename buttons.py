@@ -98,3 +98,14 @@ R_STICKX = __Analog("ABS_RX", "Right Stick Y")
 # Triggers
 R_TRIGGER = __Trigger("ABS_RZ", "Right Trigger")
 L_TRIGGER = __Trigger("ABS_Z", "Left Trigger")
+
+__all_triggers = [L_TRIGGER, R_TRIGGER]
+__all_analogs = [L_STICKX, L_STICKY, R_STICKX, R_STICKY]
+__all_buttons = [TRIANGLE, SQUARE, CROSS, CIRCLE, R1, R2, R3, D_DOWN, D_LEFT, D_RIGHT, D_UP, L1, L2, L3, SELECT, START, PS_BTTN]
+
+def get_triggers():
+    return __all_triggers
+def get_analogs():
+    return __all_analogs
+def get_buttons():
+    return __all_buttons

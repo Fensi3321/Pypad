@@ -30,8 +30,6 @@ class __Input(Thread):
 
 
     def run(self):
-        CENTER_MAX = 128 + 25
-        CENTER_MIN = 128 - 25
 
         def get_button(code):
             code_to_bttn = {
@@ -66,6 +64,11 @@ class __Input(Thread):
             }
             return mapper.get(code)
 
+        CENTER_MAX = 128 + 25
+        CENTER_MIN = 128 - 25
+
+        analogs = buttons.get_analogs()
+
         while True:
             for event in get_gamepad():
                 if event.ev_type == "Key":
@@ -75,7 +78,7 @@ class __Input(Thread):
                 elif event.ev_type == "Absolute":
                     analog = get_analog(event.code)
 
-                    if CENTER_MIN <= event.state <= CENTER_MAX:
+                    if CENTER_MIN <= event.state <= CENTER_MAX and analog in analogs:
                         event.state = 0
                     
                     analog.set_state(event.state)
