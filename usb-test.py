@@ -1,15 +1,14 @@
 from inputs import get_gamepad
 import buttons
-import gamepad
+import Pypad
 import numpy as np 
 import cv2 as cv 
 
+GamePad = Pypad.Input
+GamePad.start()
 
 while True:
     events = get_gamepad()
-
-    input_x = gamepad.GamePad.get_axis("RHORIZONTAL")
-    input_y = gamepad.GamePad.get_axis("RVERTICAL")
 
 
     #print("RIGHT VERTICAL: ", gamepad.GamePad.get_axis("RVERTICAL"))
@@ -20,7 +19,7 @@ while True:
 
     for event in events:
         if event.code == buttons.CIRCLE.get_code():
-            cv.destroyAllWindows()
             exit(0)
+
     
 

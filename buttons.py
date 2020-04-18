@@ -21,11 +21,12 @@
 
 # Analog value range: 0 - 255 (0 - leftmost / uppermost, 255 - rightmost / downmost)
 
-class Button:
+class __Button:
 
     def __init__(self, code, name):
         self.__code = code
         self.__name = name
+        self.state = 0
 
     def get_code(self):
         return self.__code
@@ -33,67 +34,67 @@ class Button:
     def get_name(self):
         return self.__name
 
-class Stick:
+    def set_state(self, state):
+        self.state = state
 
-    def __init__(self, code_vertical, code_horizontal, name, number_of_axes=2):
+class __Analog:
+
+    def __init__(self, code, name):
+        self.__code = code
         self.__name = name
-        self.__number_of_axes = number_of_axes
+        self.state = 0
 
-        if number_of_axes == 2:
-            self.__axis = [None, None]    
-            self.__axis[0] = code_vertical
-            self.__axis[1] = code_horizontal
-            self.state = [0, 0]
-
-        elif number_of_axes == 1:
-            self.__axis = code_vertical
-            self.state = 0
-
-        else: print("Bad number of axes")
-
-    def get_code(self, axis):
-        if self.__number_of_axes == 2:
-            return self.__axis[axis]
-        else:
-            return self.__axis
+    def get_code(self):
+        return self.__code
 
     def get_name(self):
         return self.__name
 
+    def set_state(self, state):
+        self.state = state
+
+class __Trigger:
+    
+    def __init__(self, code, name):
+        self.__code = code
+        self.__name = name
+        self.state = 0
+
+    def get_code(self):
+        return self.__code
+
+    def get_name(self):
+        return self.__name
+
+    def set_state(self, state):
+        self.state = state
+
 
 # Buttons
+TRIANGLE = __Button("BTN_NORTH", "Triangle")
+CIRCLE = __Button("BTN_EAST", "Circle")
+CROSS = __Button("BTN_SOUTH", "Cross")
+SQUARE = __Button("BTN_WEST", "Square")
+SELECT = __Button("BTN_SELECT", "Select")
+START = __Button("BTN_START", "Start")
+D_UP = __Button("BTN_DPAD_UP", "D-pad Up")
+D_DOWN = __Button("BTN_DPAD_DOWN", "D-pad Down")
+D_LEFT = __Button("BTN_DPAD_LEFT", "D-pad Left")
+D_RIGHT = __Button("BTN_DPAD_RIGHT", "D-pad Right")
+PS_BTTN = __Button("BTN_MODE", "PS Button")
+L1 = __Button("BTN_TL", "L1")
+L2 = __Button("BTN_TL2", "L2")
+L3 = __Button("BTN_THUMBL", "L3")
+R1 = __Button("BTN_TR", "R1")
+R2 = __Button("BTN_TR2", "R2")
+R3 = __Button("BTN_THUMBR", "R3")
 
-TRIANGLE = Button("BTN_NORTH", "Triangle")
-CIRCLE = Button("BTN_EAST", "Circle")
-CROSS = Button("BTN_SOUTH", "Cross")
-SQUARE = Button("BTN_WEST", "Square")
-SELECT = Button("BTN_SELECT", "Select")
-START = Button("BTN_START", "Start")
-D_UP = Button("BTN_DPAD_UP", "D-pad Up")
-D_DOWN = Button("BTN_DPAD_DOWN", "D-pad Down")
-D_LEFT = Button("BTN_DPAD_LEFT", "D-pad Left")
-D_RIGHT = Button("BTN_DPAD_RIGHT", "D-pad Right")
-PS_BTTN = Button("BTN_MODE", "PS Button")
-L1 = Button("BTN_TL", "L1")
-L2 = Button("BTN_TL2", "L2")
-L3 = Button("BTN_THUMBL", "L3")
-R1 = Button("BTN_TR", "R1")
-R2 = Button("BTN_TR2", "R2")
-R3 = Button("BTN_THUMBR", "R3")
+# Analogs
+L_STICKX = __Analog("ABS_X", "Left Stick X")
+L_STICKY = __Analog("ABS_Y", "Left Stick Y")
+R_STICKY = __Analog("ABS_RY", "Right Stick X")
+R_STICKX = __Analog("ABS_RX", "Right Stick Y")
 
-__all_buttons = [TRIANGLE, CIRCLE, CROSS, SQUARE, SELECT, START, D_UP, D_DOWN, D_LEFT, D_RIGHT, PS_BTTN, L1, L2, L3, R1, R2, R3]
-
-def get_buttons():
-    return __all_buttons
-
-
-# Sticks
-RIGTH_THUMB = Stick("ABS_RY", "ABS_RX", "Thumb Right", 2)
-LEFT_THUMB = Stick("ABS_Y", "ABS_X", "Thumb Left", 2)
-RIGHT_TRIGGER = Stick("ABS_RZ", None, "Right Trigger", 1)
-LEFT_TRIGGER = Stick("ABS_Z", None, "Left Trigger", 1)
-
-__all_sticks = [RIGTH_THUMB, LEFT_THUMB, RIGHT_TRIGGER, LEFT_TRIGGER]
-
-def get_sticks():
-    return __all_sticks
+# Triggers
+R_TRIGGER = __Trigger("ABS_RZ", "Right Trigger")
+L_TRIGGER = __Trigger("ABS_Z", "Left Trigger")
