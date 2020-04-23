@@ -52,18 +52,17 @@ class __Input(Thread):
             for event in get_gamepad():
                 if event.ev_type == "Key":
                     bttn = get_button(event.code)
-                    
-                    if bttn == buttons.D_DOWN or bttn == buttons.D_LEFT:
-                        bttn.set_state(-event.state)
-
                     bttn.set_state(event.state)
 
                 elif event.ev_type == "Absolute":
                     analog = get_analog(event.code)
 
-                    if CENTER_MIN <= event.state <= CENTER_MAX and analog in analogs:
-                        event.state = 0
-                    
+                    # hacky AF
+                    event.state /= 255
+                    event.state -= .5
+                    event.state *= 2
+                    event.state = float("{:.2f}".format(event.state))
+
                     analog.set_state(event.state)
 
     def get_key(self, key):
@@ -85,7 +84,6 @@ class __Input(Thread):
         d_left = self.get_key(buttons.D_LEFT)
         d_right = self.get_key(buttons.D_RIGHT)
 
-
         if axis == "Horizontal":
             if d_right > 0:
                 return 1
@@ -99,7 +97,25 @@ class __Input(Thread):
             if d_down > 0:
                 return -1
             else: return 0
-        else: raise KeyError("Axis not found")
+        else: raise KeyError("Error! Axis not found")
+
+    
+    def analog_input(self, hand):
+
+        input_x = 0
+        input_y = 0
+
+        if hand == "Right":
+            input_x = buttons.R_STICKX.state
+            input_y = buttons.R_STICKY.state
+        elif hand == "Left":
+            input_x = buttons.L_STICKX.state
+            input_y = buttons.L_STICKY.state
+        else: raise KeyError("Error! Analog Axis not found")
+
+        print(input_x, input_y)
+
+        return (input_x, input_y)    
 
     def listen(self):
         self.start()
@@ -108,22 +124,3 @@ class __Input(Thread):
 
 
 Input = __Input()
-
-#   TRIANGLE => BTN_NORTH
-#   CIRCLE => BTN_EAST     
-#   CROSS => BTN_SOUTH
-#   SQAURE => BTN_WEST  
-#   SELECT => BTN_SELECT
-#   START => BTN_START
-#   D_UP => BTN_DPAD_UP
-#   D_DOWN => BTN_DPAD_DOWN
-#   D_RIGHT => BTN_DPAD_RIGHT
-#   D_LEFT => BTN_DPAD_LEFT
-
-#   L1 => BTN_TL
-#   R1 => BTN_TR
-#   R2 => BTN_TR2
-#   R3 => BTN_THUMBR
-#   L3 => BTN_THUMBL
-#   L2 => BTN_TL2
-#   PS_BTTN => BTN_BTN_MODE

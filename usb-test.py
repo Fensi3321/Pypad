@@ -7,28 +7,30 @@ import cv2 as cv
 GamePad = Pypad.Input
 GamePad.listen()
 
+pos_x = 320
+pos_y = 320
 
-
-posX = 20
-posY = 20
 
 while True:
+    r_stick = GamePad.analog_input("Left")
+    img = np.zeros((720, 1080, 3), np.uint8)
 
-    img = np.zeros((720, 720, 3), np.uint8)
+
+    x = r_stick[0]
+    y = r_stick[1]
+
+    x *= 10
+    y *= 10
+
+    x = int(x)
+    y = int(y)
+
 
     cv.waitKey(1)
 
-    cv.rectangle(img, (posX, posY), (posX + 20, posY + 20), (255, 0, 0), 3)
+    cv.rectangle(img, (pos_x, pos_y), (pos_x + 20, pos_y + 20), (255, 0, 0), 3)
+    cv.imshow("analog", img)
 
-    cv.imshow("img", img)
-
-
-    input_x = GamePad.get_dpad(axis="Horizontal")
-    input_y = GamePad.get_dpad(axis="Vertical")
-
-
-    posX += input_x
-    posY -= input_y
-
-
+    pos_x += x
+    pos_y += y
 

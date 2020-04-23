@@ -1,26 +1,3 @@
-#   TRIANGLE => BTN_NORTH
-#   CIRCLE => BTN_EAST     
-#   CROSS => BTN_SOUTH
-#   SQAURE => BTN_WEST  
-#   SELECT => BTN_SELECT
-#   START => BTN_START
-#   D_UP => BTN_DPAD_UP
-#   D_DOWN => BTN_DPAD_DOWN
-#   D_RIGHT => BTN_DPAD_RIGHT
-#   D_LEFT => BTN_DPAD_LEFT
-
-#   L1 => BTN_TL
-#   R1 => BTN_TR
-#   R2 => BTN_TR2
-#   R3 => BTN_THUMBR
-#   L3 => BTN_THUMBL
-#   L2 => BTN_TL2
-#   PS_BTTN => BTN_BTN_MODE
-
-# TRIGGER VALUE => ABS_Z / ABS_RZ
-
-# Analog value range: 0 - 255 (0 - leftmost / uppermost, 255 - rightmost / downmost)
-
 class __Button:
 
     def __init__(self, code, name):
