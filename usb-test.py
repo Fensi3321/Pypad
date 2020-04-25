@@ -1,6 +1,4 @@
 import Pypad
-import buttons
-
 import numpy as np 
 import cv2 as cv 
 
@@ -12,9 +10,9 @@ pos_y = 320
 
 
 while True:
-    r_stick = GamePad.analog_input("Left")
     img = np.zeros((720, 1080, 3), np.uint8)
 
+    GamePad.get
 
     x = r_stick[0]
     y = r_stick[1]
