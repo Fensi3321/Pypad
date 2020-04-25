@@ -1,6 +1,5 @@
 import buttons
 from threading import Thread
-import sys
 from inputs import get_gamepad
 
 class __Input(Thread):
